@@ -1,4 +1,11 @@
+/*
+  
+CÓDIGO DE TESTE
+ 
+ 
+ 
 package client;
+ 
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,3 +63,4 @@ public class ClientTCP {
         return ret; 
     }
 }
+*/
