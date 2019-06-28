@@ -3,6 +3,7 @@ import util.Messages;
 import java.lang.Thread;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -28,17 +29,24 @@ public class ContactServer extends Thread{
 		
 	}
 	
-	private void enviarMensagem() {
-		// TODO fazer metodo
+	private void enviarMensagem(OutputStream os) throws Exception {
+		
+		String s = (String)l.pop();
+		byte[] saida = s.getBytes();
+		
+		os.write(saida);
+		os.flush();
 	}
 	
 	private void receberMensagem(LinkedList<Messages> message) {
 		// TODO fazer metodo
 	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		while(true) {
+			OutputStream os = server.getOutputStream();
 			if(!l.isEmpty()) {
 				System.out.println("not empty");
 				l.pop();
