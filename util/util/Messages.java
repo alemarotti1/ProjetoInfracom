@@ -1,14 +1,26 @@
 package util;
 
+import java.time.LocalTime;
+
 public class Messages {
 	private int id;
 	private String data;
 	private String status, origem, destino;
+	private LocalTime hora;
 
 // The field status can contain one of the following codes:
-// "RECEIVED" - The server received the message
+// "SENT" -  The server received the message
+// "RECIEVED" - The reciever received the message
 // "DELIVERED" - The server successfully delivered the message to the other client
 // "READ" - The message was read by the other user
+
+	public LocalTime getHora() {
+		return hora;
+	}
+
+	public void setHora(LocalTime hora) {
+		this.hora = hora;
+	}
 
 	public String getOrigem() {
 		return origem;
