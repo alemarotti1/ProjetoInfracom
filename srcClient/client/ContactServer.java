@@ -18,10 +18,10 @@ import java.util.LinkedList;
 public class ContactServer extends Thread{
 	Socket server;
 	byte[] sendData, receivedData;
-	LinkedList send, recieve;
+	LinkedList<String> send, recieve;
 	
-	public ContactServer(LinkedList lSend, LinkedList lRecieve) {
-		/*int port = 5093;
+	public ContactServer(LinkedList<String> lSend, LinkedList<String> lRecieve) {
+		int port = 5093;
 		InetAddress IPserver;
 		try {
 			IPserver = InetAddress.getByName("localhost");
@@ -30,19 +30,30 @@ public class ContactServer extends Thread{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		send = lSend;
 		recieve = lRecieve;
 		
 	}
 	
 	private void enviarMensagem(OutputStream os) throws Exception {
+		String s;
+		try{
+			s = (String)send.pop();
+			System.out.println(s);
 		
-		String s = (String)send.pop();
-		byte[] saida = s.getBytes();
+			byte[] saida = s.getBytes();
+			
+			os.write(saida);
+			os.flush();
 		
-		os.write(saida);
-		os.flush();
+		}catch(Exception e) {
+			
+		}
+		
+		
+		
+
 	}
 	
 	private void receberMensagem(InputStream is) throws IOException {
@@ -63,6 +74,15 @@ public class ContactServer extends Thread{
 				BufferedOutputStream bos = new BufferedOutputStream(os);
 				BufferedInputStream bis = new BufferedInputStream(is);
 				
+				
+				
+				
+				
+				
+				
+				
+				
+				System.out.println("alo");
 				enviarMensagem(os);
 				receberMensagem(is);
 				
