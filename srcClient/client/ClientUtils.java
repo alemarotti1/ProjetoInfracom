@@ -2,7 +2,10 @@ package client;
 
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.io.UnsupportedEncodingException;
 import java.lang.Thread;
+import java.net.URLEncoder;
+
 import util.Messages;
 
 public class ClientUtils {
@@ -20,9 +23,9 @@ public class ClientUtils {
 		t.start();
 	}
 	
-	public void enviarMensagem(Messages send) {
-		String sendString = "ENVIANDO#"+send.getStatus()+"#"+send.getOrigem()+"#"+send.getDestino()+"#"+send.getData();
-		
+	public void enviarMensagem(Messages send) throws Exception {
+		String sendString = "ENVIANDO#"+URLEncoder.encode(send.getStatus(), "UTF-8")+"#"+URLEncoder.encode(send.getOrigem(), "UTF-8")+"#"+URLEncoder.encode(send.getDestino(), "UTF-8")+"#"+URLEncoder.encode(send.getData(), "UTF-8")+"*"+URLEncoder.encode(send.getDestino(), "UTF-8");
+		sendList.add(sendString);
 	}
 	
 	

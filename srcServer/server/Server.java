@@ -102,7 +102,9 @@ class ClientHandler implements Runnable
              StringTokenizer st = new StringTokenizer(received, "*"); 
              //TIPO STATUS ID  ORIGEM  MENSAGEM DESTINATARIO
              String MsgToSend = st.nextToken(); //mensagem para mandar
+             System.out.println(MsgToSend);
              String recipient = st.nextToken(); //para quem mandar
+             System.out.println(recipient);
              
              if(recipient.equals("deslogar")){ 
                  this.isloggedin=false; 

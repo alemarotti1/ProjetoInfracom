@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,17 +38,17 @@ public class ContactServer extends Thread{
 		
 	}
 	
-	private void enviarMensagem(OutputStream os) throws Exception {
+	private void enviarMensagem(DataOutputStream os) throws Exception {
 		String s;
+		System.out.println("ola");
 		try{
 			s = (String)send.pop();
-			System.out.println(s);
-		
-			byte[] saida = s.getBytes();
 			
-			os.write(saida);
+			System.out.println(s);
+			
+			os.writeUTF(s);
 			os.flush();
-		
+			
 		}catch(Exception e) {
 			
 		}
@@ -56,10 +58,11 @@ public class ContactServer extends Thread{
 
 	}
 	
-	private void receberMensagem(InputStream is) throws IOException {
+	private void receberMensagem(DataInputStream is) throws IOException {
 		// TODO fazer metodo
+		String message = is.readUTF();
+		System.out.println();
 		
-		is.read(receivedData);
 		
 	}
 	
@@ -71,8 +74,8 @@ public class ContactServer extends Thread{
 				//-----------------------inicio do try---------------------------------------
 				OutputStream os = server.getOutputStream();
 				InputStream is = server.getInputStream();
-				BufferedOutputStream bos = new BufferedOutputStream(os);
-				BufferedInputStream bis = new BufferedInputStream(is);
+				DataOutputStream bos = new DataOutputStream(os);
+				DataInputStream bis = new DataInputStream(is);
 				
 				
 				
@@ -83,8 +86,8 @@ public class ContactServer extends Thread{
 				
 				
 				System.out.println("alo");
-				enviarMensagem(os);
-				receberMensagem(is);
+				enviarMensagem(bos);
+				receberMensagem(bis);
 				
 				URLEncoder.encode("", "UTF-8");
 				URLDecoder.decode("", "UTF-8");
