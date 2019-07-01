@@ -12,11 +12,29 @@ public class MainTeste {
 		send.setDestino("0");
 		send.setOrigem("0");
 		send.setStatus("");
+		
+		Messages send2 = new Messages(1, "bengaDura####");
+		send2.setHora(LocalTime.now());
+		send2.setDestino("0");
+		send2.setOrigem("0");
+		send2.setStatus("");
+		
+		
+		
 		try {
 			utils.enviarMensagem(send);
+			utils.enviarMensagem(send2);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		utils.logout();
+		for(int i = 0; i<1000000; i++) {
+			Messages m = utils.receberMensagem();
+			System.out.println(m.getData());
+		}
 	}
+	
+	
 }

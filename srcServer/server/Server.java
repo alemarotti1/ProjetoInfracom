@@ -41,7 +41,7 @@ public class Server
          System.out.println("Creating a new handler for this client..."); 
 
          // Create a new handler object for handling this request. 
-         ClientHandler mtch = new ClientHandler(s,"client " + i, dis, dos); 
+         ClientHandler mtch = new ClientHandler(s, Integer.toOctalString(i), dis, dos); 
 
          // Create a new Thread with this object. 
          Thread t = new Thread(mtch); 
@@ -129,7 +129,8 @@ class ClientHandler implements Runnable
              { 
                  // if the recipient is found, write on its 
                  // output stream 
-                 if (mc.name.equals(recipient) && mc.isloggedin==true)  
+            	 System.out.println(mc.name);
+                 if (mc.name.equals(recipient)/* && mc.isloggedin==true*/)  
                  { 
                      mc.dos.writeUTF(this.name+" : "+MsgToSend); 
                      break; 

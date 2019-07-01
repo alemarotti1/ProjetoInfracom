@@ -2,6 +2,9 @@ package client;
 
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.io.UnsupportedEncodingException;
 import java.lang.Thread;
 import java.net.URLEncoder;
@@ -19,8 +22,8 @@ public class ClientUtils {
 		sendList = new LinkedList<String>();
 		recieveList = new LinkedList<String>();
 		c = new ContactServer(sendList, recieveList);
-		t = new Thread(c);
-		t.start();
+		ScheduledExecutorService se = Executors.newSingleThreadScheduledExecutor();
+		se.scheduleWithFixedDelay(c, 0, 500, TimeUnit.MILLISECONDS);
 	}
 	
 	public void enviarMensagem(Messages send) throws Exception {
@@ -56,9 +59,8 @@ public class ClientUtils {
 		return null;
 	}
 	
-	private void logout() {
-		// TODO Auto-generated method stub
-
+	public void logout() {
+		sendList.add("deslogar*deslogar");
 	}
 	
 	private void confirmarLeitura(int id, String destino) {

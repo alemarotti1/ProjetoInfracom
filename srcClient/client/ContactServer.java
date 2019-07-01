@@ -38,10 +38,11 @@ public class ContactServer extends Thread{
 		
 	}
 	
-	private void enviarMensagem(DataOutputStream os) throws Exception {
+	public synchronized void enviarMensagem(DataOutputStream os) throws Exception {
 		String s;
-		System.out.println("ola");
+
 		try{
+			
 			s = (String)send.pop();
 			
 			System.out.println(s);
@@ -58,18 +59,18 @@ public class ContactServer extends Thread{
 
 	}
 	
-	private void receberMensagem(DataInputStream is) throws IOException {
+	public synchronized void receberMensagem(DataInputStream is) throws IOException {
 		// TODO fazer metodo
-		String message = is.readUTF();
-		System.out.println();
-		
+		if(is.available()>0) {
+			String message = is.readUTF();
+			recieve.add(message);
+		}		
 		
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		while(true) {
 			try {
 				//-----------------------inicio do try---------------------------------------
 				OutputStream os = server.getOutputStream();
@@ -82,10 +83,6 @@ public class ContactServer extends Thread{
 				
 				
 				
-				
-				
-				
-				System.out.println("alo");
 				enviarMensagem(bos);
 				receberMensagem(bis);
 				
@@ -108,9 +105,10 @@ public class ContactServer extends Thread{
 				e.printStackTrace();
 			}
 			
-		}
+		
 		
 	}
+
 	
 	
 }
