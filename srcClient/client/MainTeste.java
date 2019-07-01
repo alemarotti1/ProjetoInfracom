@@ -2,46 +2,83 @@ package client;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalTime;
+import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import util.Messages;
 
-public class MainTeste {
-	public static void main(String[] args) {
-		ClientUtils utils = new ClientUtils();
-		Messages send = new Messages(0, "bengamole####");
-		send.setHora(LocalTime.now());
-		send.setDestino("0");
-		send.setOrigem("0");
-		send.setStatus("");
+public class MainTeste extends Thread{
+	ClientUtils utils;
+	Scanner scanner;
+	static int id=0;
+	String numeroContato;
+	
+	public MainTeste(ClientUtils u) {
+		scanner = new Scanner(System.in);
+		utils = u;
 		
-		Messages send2 = new Messages(1, "bengaDura####");
-		send2.setHora(LocalTime.now());
-		send2.setDestino("0");
-		send2.setOrigem("0");
-		send2.setStatus("");
+		System.out.println("Digite seu numero para contato");
+		numeroContato = scanner.nextLine();
 		
-		
-		
+	}
+	
+	
+	@Override
+	public void run() {
+		Messages tmp = typeMensagem();
 		try {
-			utils.enviarMensagem(send);
-			utils.enviarMensagem(send2);
+			if(tmp!=null)
+			utils.enviarMensagem(tmp);
+		
+			Messages recieve = utils.receberMensagem();
+			if(recieve!=null) {
+				System.err.println(recieve.getOrigem()+"  -  "+recieve.getData());
+			}
+		
+		
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		utils.logout();
-		for(int i = 0; i<1000000; i++) {
-			Messages m=null;
-			try {
-				m = utils.receberMensagem();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(m!=null)
-			System.out.println(m.getData());
+	}
+	
+	
+	
+	public Messages typeMensagem() {
+		System.out.println("deseja enviar uma mensagem? Y/N");
+		String enviar = scanner.nextLine();
+		
+		if(enviar.contains("Y")) {
+			System.out.println("digite seu destinatário");
+			int destino = Integer.parseInt(scanner.nextLine());
+			
+			System.out.println("digite sua mensaagem");
+			String mensagem = scanner.nextLine();
+			
+			Messages mens = new Messages(MainTeste.id, mensagem);
+			MainTeste.id++;
+			mens.setDestino(Integer.toString(destino));
+			mens.setHora(LocalTime.now());
+			mens.setOrigem(numeroContato);
+			mens.setStatus("SENT");
+			
+			
+			return mens;
 		}
+		return null;
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		ClientUtils temp = new ClientUtils();
+		
+		
+		ScheduledExecutorService se = Executors.newSingleThreadScheduledExecutor();
+		se.scheduleWithFixedDelay(new MainTeste(temp), 0, 500, TimeUnit.MILLISECONDS);
+		
 	}
 	
 	

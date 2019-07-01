@@ -9,7 +9,7 @@ public class Messages {
 	private LocalTime hora;
 
 // The field status can contain one of the following codes:
-// "SENT" -  The server received the message
+// "SENT" -  Message Sent
 // "RECIEVED" - The reciever received the message
 // "DELIVERED" - The server successfully delivered the message to the other client
 // "READ" - The message was read by the other user
@@ -42,8 +42,8 @@ public class Messages {
 		this.status = status;
 	}
 
-	public Messages(int id, String data) {
-		this.setId(id);
+	public Messages(int id2, String data) {
+		this.setId(id2);
 		this.setData(data);
 		this.initializeStatus();
 	}
@@ -58,8 +58,8 @@ public class Messages {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int id2) {
+		this.id = id2;
 	}
 
 	public String getData() {
