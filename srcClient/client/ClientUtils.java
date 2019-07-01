@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.io.UnsupportedEncodingException;
 import java.lang.Thread;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import util.Messages;
@@ -33,22 +34,22 @@ public class ClientUtils {
 	
 	
 	
-	public Messages receberMensagem() {
+	public Messages receberMensagem() throws UnsupportedEncodingException {
 		if(!recieveList.isEmpty()) {
 			String temp = recieveList.pop();
 			String[] mensagemRecebida = temp.split("#");
 			String tipo, id, status, origem, mensagem="";
 			Messages returnVar;
 			
-				tipo = mensagemRecebida[0];
-				id = mensagemRecebida[1];
-				origem = mensagemRecebida[2];
+				tipo = URLDecoder.decode(mensagemRecebida[0], "UTF-8");
+				id = URLDecoder.decode(mensagemRecebida[1], "UTF-8");
+				origem = URLDecoder.decode(mensagemRecebida[2], "UTF-8");;
 				try {
 					mensagem = mensagemRecebida[3];
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				returnVar = new Messages(Integer.parseInt(id), mensagem);
+				returnVar = new Messages(Integer.parseInt(id),URLDecoder.decode(mensagem, "UTF-8"));
 				returnVar.setOrigem(origem);
 				
 				

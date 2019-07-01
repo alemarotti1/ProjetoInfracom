@@ -1,5 +1,6 @@
 package client;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalTime;
 
 import util.Messages;
@@ -31,7 +32,14 @@ public class MainTeste {
 		
 		utils.logout();
 		for(int i = 0; i<1000000; i++) {
-			Messages m = utils.receberMensagem();
+			Messages m=null;
+			try {
+				m = utils.receberMensagem();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(m!=null)
 			System.out.println(m.getData());
 		}
 	}
