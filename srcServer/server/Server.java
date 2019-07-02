@@ -92,11 +92,7 @@ class ClientHandler implements Runnable
          try
          { 
              // receive the string 
-             received = dis.readUTF(); 
-               
-             System.out.println(received); 
-               
-            
+             received = dis.readUTF();
                
              // break the string into message and recipient part 
              StringTokenizer st = new StringTokenizer(received, "*"); 
@@ -104,7 +100,9 @@ class ClientHandler implements Runnable
              String MsgToSend = st.nextToken(); //mensagem para mandar
              System.out.println(MsgToSend);
              String recipient = st.nextToken(); //para quem mandar
-             System.out.println(recipient);
+             
+             //Antes de fazer qualquer coisa, envia a quem mandou a mensagem confirmação de recebimento:
+             this.dos.writeUTF("ACK#RECEIVEDBYSERVER#0#0#0#NOMSG");
              
              if(recipient.equals("deslogar")){ 
                  this.isloggedin=false; 
@@ -117,7 +115,7 @@ class ClientHandler implements Runnable
                      if (mc.isloggedin==true)  
                      { //por enquanto ta enviando errado, tem que enviar pra quem pediu
                     	 
-                         mc.dos.writeUTF(this.name+" : "+MsgToSend); 
+                         mc.dos.writeUTF(MsgToSend); 
                           
                      } 
                  } 
@@ -129,10 +127,10 @@ class ClientHandler implements Runnable
              { 
                  // if the recipient is found, write on its 
                  // output stream 
-            	 System.out.println(mc.name);
                  if (mc.name.equals(recipient)/* && mc.isloggedin==true*/)  
                  { 
-                     mc.dos.writeUTF(this.name+" : "+MsgToSend); 
+                	 //System.out.println(mc.name);
+                     mc.dos.writeUTF(MsgToSend); 
                      break; 
                  } 
              } 

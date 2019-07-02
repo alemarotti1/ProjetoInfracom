@@ -5,12 +5,20 @@ import java.time.LocalTime;
 public class Messages {
 	private int id;
 	private String data;
-	private String status, origem, destino;
+	private String status, origem, destino, tipo;
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	private LocalTime hora;
 
 // The field status can contain one of the following codes:
 // "SENT" -  Message Sent
-// "RECIEVED" - The reciever received the message
+// "RECEIVED" - The reciever received the message
 // "DELIVERED" - The server successfully delivered the message to the other client
 // "READ" - The message was read by the other user
 
@@ -87,6 +95,8 @@ public class Messages {
 	}
 
 	public void ack() {
-		this.status = "ACK";
+		this.status = "RECEIVED BY SERVER";
 	}
+
+
 }

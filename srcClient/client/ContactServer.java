@@ -45,7 +45,7 @@ public class ContactServer extends Thread{
 			
 			s = (String)send.pop();
 			
-			System.out.println(s);
+			//System.out.println(s);
 			
 			os.writeUTF(s);
 			os.flush();
